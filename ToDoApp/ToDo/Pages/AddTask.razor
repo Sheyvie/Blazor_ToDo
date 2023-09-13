@@ -1,0 +1,86 @@
+﻿<section class="vh-20" style="background-color: #eee;">
+    <div class="container h-30">
+        <div class="row d-flex justify-content-center align-items-center h-50">
+            <div class="col-lg-6 col-xl-11">
+                <div class="card text-black" style="border-radius: 25px;">
+                    <div class="card-body p-md-3">
+                        <div class="row justify-content-center">
+                            
+
+
+<div class="col-md-5 col-lg-3 col-xl-5 order-2 order-lg-1">
+
+<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Add Task</p>
+</div>
+
+
+<div class= "d-flex flex-row align-items-center mb-4">
+    <input type="text" id="form3Example1c" @bind-value="@newTask.Name" class="form-control" />
+    <label class="form-label" for="form3Example1c">Name</label>
+</div>
+<div class="d-flex flex-row align-items-center mb-4">
+    <input type="text" id="form3Example4c" @bind-value="@newTask.Description" class="form-control" />
+    <label class="form-label" for="form3Example4c">Description</label>
+</div>
+<div>
+    <select class="select" @bind="@newTask.Importance">
+        <option value="1" disabled>Importance</option>
+        <option value="2">Urgent</option>
+        <option value="3">Not Urgent</option>
+    </select>
+</div>
+<button type="button" @onclick="InsertNewTask" class="btn btn-primary btn-lg  d-flex justify-content-center mx-4 mb-3 mb-lg-4">Submit</button>
+<button type="button" @onclick="UpdateTodoTask" class="btn btn-secondary btn-lg  d-flex justify-content-center mx-4 mb-3 mb-lg-4">Update</button>
+
+<div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+
+    <img src="https://cdn.pixabay.com/photo/2017/06/10/07/18/list-2389219_1280.png"
+         class="img-fluid max-width=50%" alt="Sample image">
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+                            
+
+@code {
+    public TaskDto newTask = new TaskDto()
+    {
+        Id = Guid.NewGuid(),
+        Name ="TaskName"
+    };
+    public bool IsEditing = false;
+    [Parameter]
+    public EventCallback<TaskDto> AddNewTask{ get; set; }
+
+    [Parameter]
+    public EventCallback<TaskDto> UpdateTask { get; set; }
+
+    [Parameter]
+    public TaskDto SelectedTask 
+    //{ get; set; }
+    { 
+        get => newTask; 
+        set
+        {
+            newTask = value ?? newTask;
+            IsEditing = value != null; 
+        } 
+    }
+
+    public async Task InsertNewTask()
+    {
+        await AddNewTask.InvokeAsync(newTask);
+        newTask = new TaskDto();
+    }
+    public async Task UpdateTodoTask()
+    {
+        await UpdateTask.InvokeAsync(newTask);
+    }
+}
+ 

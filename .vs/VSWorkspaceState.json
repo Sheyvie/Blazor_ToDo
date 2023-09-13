@@ -1,0 +1,10 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\ToDoApp",
+    "\\ToDoApp\\ToDo",
+    "\\ToDoApp\\ToDo\\Pages"
+  ],
+  "SelectedNode": "\\ToDoApp\\ToDo\\Pages\\AddTask.razor",
+  "PreviewInSolutionExplorer": false
+}

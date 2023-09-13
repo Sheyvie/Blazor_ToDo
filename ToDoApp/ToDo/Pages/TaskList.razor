@@ -1,0 +1,59 @@
+﻿@page "/"
+<div col="4" class="mt-5"> 
+    
+    <AddTask AddNewTask="AddNewTask" UpdateTask="UpdateTask" SelectedTask="SelectedTask" />
+</div>
+<div col="5"><DisplayTask/>
+    </div>
+@if(tasks.Count == 0)
+{
+    <p> No tasks available</p>
+}
+else
+{
+    @foreach (var task in tasks)
+    {
+        <DisplayTask taskDto="task" DeleteId="DeleteTask" EditTask="EditTask" />
+    }
+}
+
+
+@code {
+    public TaskDto SelectedTask;
+    private List<TaskDto> tasks = new List<TaskDto>()
+   {
+       new TaskDto()
+      {
+        Id = Guid.NewGuid (),
+        Name = "TaskName"
+      }
+   };
+    public void AddNewTask(TaskDto task)
+    {
+        this.tasks.Add(task);
+    }
+
+    public void DeleteTask(Guid id)
+    {
+        try
+        {
+            var taskDelete = this.tasks.Find(x => x.Id == id);
+            this.tasks.Remove(taskDelete);
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    public void UpdateTask(TaskDto tasks)
+    {
+        var updatetaskIndex = this.tasks.FindIndex(x => x.Id == tasks.Id);
+        this.tasks[updatetaskIndex] = tasks;
+    }
+
+    public void EditTask(TaskDto tasks)
+    {
+        SelectedTask = tasks;
+    }
+}
